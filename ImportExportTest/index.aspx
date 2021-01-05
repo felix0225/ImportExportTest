@@ -16,7 +16,8 @@
             </p>
             <asp:Button ID="Button1" runat="server" Text="LinqToExcel 匯入" OnClick="Button1_Click" />&nbsp;
             <asp:Button ID="Button2" runat="server" Text="EPPlus 匯入" OnClick="Button2_Click" />&nbsp;
-            <asp:Button ID="Button3" runat="server" Text="EPPlus 匯出" OnClick="Button3_Click" />
+            <asp:Button ID="Button3" runat="server" Text="EPPlus 匯出" OnClick="Button3_Click" />&nbsp;
+            <asp:Button ID="Button4" runat="server" Text="EPPlus 匯出 Zip" OnClick="Button4_Click" />
         </div>
     </form>
 </body>

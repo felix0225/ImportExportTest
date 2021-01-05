@@ -7,11 +7,13 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace ImportExportTest {
-    
-    
-    public partial class index {
-        
+namespace ImportExportTest
+{
+
+
+    public partial class index
+    {
+
         /// <summary>
         /// form1 控制項。
         /// </summary>
@@ -20,7 +22,7 @@ namespace ImportExportTest {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
         /// FileUpload1 控制項。
         /// </summary>
@@ -29,7 +31,7 @@ namespace ImportExportTest {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
-        
+
         /// <summary>
         /// FileUploadErr 控制項。
         /// </summary>
@@ -38,7 +40,7 @@ namespace ImportExportTest {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label FileUploadErr;
-        
+
         /// <summary>
         /// Button1 控制項。
         /// </summary>
@@ -47,7 +49,7 @@ namespace ImportExportTest {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button1;
-        
+
         /// <summary>
         /// Button2 控制項。
         /// </summary>
@@ -56,7 +58,7 @@ namespace ImportExportTest {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button2;
-        
+
         /// <summary>
         /// Button3 控制項。
         /// </summary>
@@ -65,5 +67,14 @@ namespace ImportExportTest {
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button Button3;
+
+        /// <summary>
+        /// Button4 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button4;
     }
 }
