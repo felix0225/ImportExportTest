@@ -116,26 +116,27 @@ namespace ImportExportTest
 
         protected void Button3_Click(object sender, EventArgs e)
         {
-            var exportdt = new DataTable();
-            exportdt.Columns.Add("標題", typeof(string));
-
-            var dr = exportdt.NewRow();
-            dr["標題"] = "export";
-            exportdt.Rows.Add(dr);
+            DataTable exportdt = GetDataTable();
 
             FilesHelper.ExportDatasToExcel(exportdt, "匯出_" + DateTime.Now.ToString("yyyyMMddHHmm"));
         }
 
         protected void Button4_Click(object sender, EventArgs e)
         {
+            DataTable exportdt = GetDataTable();
+
+            FilesHelper.ExportDatasToExcelZip(exportdt, "匯出_" + DateTime.Now.ToString("yyyyMMddHHmm"));
+        }
+
+        private static DataTable GetDataTable()
+        {
             var exportdt = new DataTable();
             exportdt.Columns.Add("標題", typeof(string));
 
             var dr = exportdt.NewRow();
-            dr["標題"] = "export";
+            dr["標題"] = "的天傳民觀也。是效歡！書以善回票醫怎說病北話中！境病初看；達用要整要倒成差不綠們所問至。像產度上候……到經面獨裡向，最試代。的起得但然內型國中謝；力身發：育細長讀再大路現活自？海開清獲告表它連：我領？";
             exportdt.Rows.Add(dr);
-
-            FilesHelper.ExportDatasToExcelZip(exportdt, "匯出_" + DateTime.Now.ToString("yyyyMMddHHmm"));
+            return exportdt;
         }
     }
 }
