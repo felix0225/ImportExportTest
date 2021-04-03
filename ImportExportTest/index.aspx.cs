@@ -5,6 +5,8 @@ using System;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Web;
+using MiniExcelLibs;
 
 namespace ImportExportTest
 {
@@ -25,6 +27,26 @@ namespace ImportExportTest
             UploadFile("EPPlus");
         }
 
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            ExportFile("EPPlus");
+        }
+
+        protected void Button4_Click(object sender, EventArgs e)
+        {
+            ExportFile("EPPlusZip");
+        }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            UploadFile("MiniExcel");
+        }
+
+        protected void Button6_Click(object sender, EventArgs e)
+        {
+            ExportFile("MiniExcel");
+        }
+
         private void UploadFile(string type)
         {
             FileUploadErr.Visible = false;
@@ -39,14 +61,14 @@ namespace ImportExportTest
             try
             {
                 var fileName = GuidHelper.Get32String();
-                var xPatch = $"{uploadExcelPath}{fileName}{fileType}";
-                FileUpload1.PostedFile.SaveAs(xPatch);
+                var path = $"{uploadExcelPath}{fileName}{fileType}";
+                FileUpload1.PostedFile.SaveAs(path);
 
                 switch (type)
                 {
                     case "LinqToExcel":
                         {
-                            var excel = new ExcelQueryFactory(xPatch);
+                            var excel = new ExcelQueryFactory(path);
                             var worksheetCount = excel.GetWorksheetNames().Count();
 
                             //判斷有資料時才做寫入
@@ -65,10 +87,26 @@ namespace ImportExportTest
                             }
                             break;
                         }
+                    case "MiniExcel":
+                        {
+                            using (var stream = File.OpenRead(path))
+                            {
+                                var rows = stream.Query(useHeaderRow: true).ToList();
+
+                                foreach (var importdata in rows)
+                                {
+                                    var title = importdata.標題;
+
+                                    Response.Write(title + "<br/>");
+                                }
+                            }
+
+                            break;
+                        }
                     case "EPPlus":
                         {
                             //載入Excel檔案
-                            var fileStream = new FileStream(xPatch, FileMode.Open, FileAccess.Read);
+                            var fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
                             using (var ep = new ExcelPackage(fileStream))
                             {
                                 //判斷有資料時才做寫入
@@ -104,7 +142,7 @@ namespace ImportExportTest
                         }
                 }
 
-                FilesHelper.DeleteFile(xPatch);
+                FilesHelper.DeleteFile(path);
             }
             catch (Exception ex)
             {
@@ -114,21 +152,7 @@ namespace ImportExportTest
             }
         }
 
-        protected void Button3_Click(object sender, EventArgs e)
-        {
-            DataTable exportdt = GetDataTable();
-
-            FilesHelper.ExportDatasToExcel(exportdt, "匯出_" + DateTime.Now.ToString("yyyyMMddHHmm"));
-        }
-
-        protected void Button4_Click(object sender, EventArgs e)
-        {
-            DataTable exportdt = GetDataTable();
-
-            FilesHelper.ExportDatasToExcelZip(exportdt, "匯出_" + DateTime.Now.ToString("yyyyMMddHHmm"));
-        }
-
-        private static DataTable GetDataTable()
+        private void ExportFile(string type)
         {
             var exportdt = new DataTable();
             exportdt.Columns.Add("標題", typeof(string));
@@ -136,7 +160,29 @@ namespace ImportExportTest
             var dr = exportdt.NewRow();
             dr["標題"] = "的天傳民觀也。是效歡！書以善回票醫怎說病北話中！境病初看；達用要整要倒成差不綠們所問至。像產度上候……到經面獨裡向，最試代。的起得但然內型國中謝；力身發：育細長讀再大路現活自？海開清獲告表它連：我領？";
             exportdt.Rows.Add(dr);
-            return exportdt;
+
+            var fileName = "匯出_" + DateTime.Now.ToString("yyyyMMddHHmm");
+
+            switch (type)
+            {
+                case "EPPlus":
+                    FilesHelper.ExportDatasToExcel(exportdt, fileName);
+                    break;
+                case "EPPlusZip":
+                    FilesHelper.ExportDatasToExcelZip(exportdt, fileName);
+                    break;
+                case "MiniExcel":
+                    var stream = new MemoryStream();
+                    stream.SaveAs(exportdt);
+                    fileName = HttpContext.Current.Server.UrlPathEncode(fileName);
+                    HttpContext.Current.Response.Clear();
+                    HttpContext.Current.Response.AddHeader("content-disposition", "attachment; filename=" + fileName + ".xlsx");
+                    HttpContext.Current.Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    HttpContext.Current.Response.BinaryWrite(stream.ToArray());
+                    HttpContext.Current.Response.Flush();
+                    HttpContext.Current.Response.End();
+                    break;
+            }
         }
     }
 }
